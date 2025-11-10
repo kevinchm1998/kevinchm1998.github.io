@@ -34,6 +34,13 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) {
             console.error('❌ 保存本地存儲失敗:', error);
         }
+
+          // 🎵 在這裡啟動背景音樂
+    if (window.startBackgroundMusic) {
+        console.log('🎵 啟動背景音樂');
+        window.startBackgroundMusic();
+    }
+
     }
     
     // 檢查是否已經關閉過
@@ -409,4 +416,85 @@ window.addEventListener('load', function() {
     setTimeout(() => {
         document.body.style.overflow = '';
     }, 1000);
+});
+
+// 音樂控制部分
+document.addEventListener('DOMContentLoaded', function() {
+    const bgMusic = document.getElementById('bgMusic');
+    const musicToggle = document.getElementById('musicToggle');
+    
+    if (!bgMusic || !musicToggle) return;
+    
+    // 設置音樂音量
+    bgMusic.volume = 0.5;
+    
+    // 滾動檢測函數
+    function checkScrollPosition() {
+        const scrollY = window.scrollY;
+        const homePageHeight = window.innerHeight; // 第一頁高度
+        
+        if (scrollY < homePageHeight - 100) {
+            // 在第一頁範圍內
+            document.body.classList.add('on-home-page');
+        } else {
+            // 滾動到下面頁面
+            document.body.classList.remove('on-home-page');
+        }
+    }
+    
+    // 音樂控制函數
+    function setupMusicControl() {
+        musicToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            
+            if (bgMusic.paused) {
+                // 播放音樂
+                bgMusic.play().then(() => {
+                    musicToggle.classList.remove('muted');
+                }).catch(e => {
+                    console.log('播放失敗');
+                });
+            } else {
+                // 暫停音樂
+                bgMusic.pause();
+                musicToggle.classList.add('muted');
+            }
+        });
+    }
+    
+    // 啟動音樂函數
+    function startMusic() {
+        bgMusic.play().then(() => {
+            musicToggle.classList.remove('muted');
+        }).catch(e => {
+            console.log('音樂啟動失敗');
+        });
+    }
+    
+    // 設置音樂控制
+    setupMusicControl();
+    
+    // 監聽滾動事件
+    window.addEventListener('scroll', checkScrollPosition);
+    window.addEventListener('resize', checkScrollPosition); // 窗口大小改變時也檢查
+    
+    // 初始檢查
+    checkScrollPosition();
+    
+    // 檢查是否已經關閉過免責聲明
+    let hasClosed = false;
+    try {
+        const stored = localStorage.getItem('disclaimerClosed');
+        hasClosed = stored === 'true';
+    } catch (error) {
+        hasClosed = false;
+    }
+    
+    // 如果已經關閉過免責聲明，自動啟動音樂
+    if (hasClosed) {
+        setTimeout(startMusic, 500);
+    }
+    
+    // 當免責聲明關閉時啟動音樂
+    window.startBackgroundMusic = startMusic;
 });
