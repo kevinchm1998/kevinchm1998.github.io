@@ -1,21 +1,32 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
+  
 <head>
-<!-- Google Ads Tag -->
+  <!-- 1. 基礎代碼（必須先有這個） -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17713083183"></script>
   <script>
-function gtag_report_conversion(url) {
-  var callback = function () {
-    if (typeof(url) != 'undefined') {
-      window.location = url;
-    }
-  };
-  gtag('event', 'conversion', {
-      'send_to': 'AW-17713083183/nMBACM7k7MEbEK_moP5B',
-      'event_callback': callback
-  });
-  return false;
-}
-</script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-17713083183');
+  </script>
+
+  <!-- 2. 您現有的轉換函式（然後才是這個） -->
+  <script>
+  function gtag_report_conversion(url) {
+    var callback = function () {
+      if (typeof(url) != 'undefined') {
+        window.location = url;
+      }
+    };
+    gtag('event', 'conversion', {
+        'send_to': 'AW-17713083183/yx2zCK2O9sEbEK_moP5B',
+        'event_callback': callback
+    });
+    return false;
+  }
+  </script>
+  
     <!-- End Google Ads Tag -->
 
     <meta charset="UTF-8">
